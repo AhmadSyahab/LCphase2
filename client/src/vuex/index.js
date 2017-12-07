@@ -32,7 +32,7 @@ export default new Vuex.Store ({
 			})
 		},
 		createGallery (state, payload) {
-			state.gallerys = payload.gallery.data
+			state.gallerys.unshift(payload.gallery.data)
 		},
 		updateContain (state, payload) {
 			console.log('updated',payload)
@@ -41,7 +41,14 @@ export default new Vuex.Store ({
 					state.gallerys.splice(index,1,payload.updatedContain.data)
 				}
 			})
-		}
+		},
+		signout (state, payload) {
+			state.checkIn = false
+			state.token = ''
+			state.name = ''
+			state.userId = ''
+      		alert(' logout Success ')
+		}		
 	},
 	actions: {
 		login (context,payload) {
@@ -58,6 +65,7 @@ export default new Vuex.Store ({
 		     	})				
 			})
 			.catch(err => {
+				alert('login success')
 				console.log(err);
 			})
 		},
@@ -80,6 +88,11 @@ export default new Vuex.Store ({
 		        image: payload.image,
 				desc: payload.desc,
 				userId: context.rootState.userId
+			},  {
+				headers : {
+					token : context.rootState.token,
+					userId: context.rootState.userId,
+				}
 			})
 			.then(result => {
 				context.commit('createGallery', {
@@ -87,6 +100,7 @@ export default new Vuex.Store ({
 				})
 			})
 			.catch(err => {
+				alert('login first')
 				console.log(err)
 			})
 		},
@@ -104,28 +118,45 @@ export default new Vuex.Store ({
 		like (context, payload) {
 			ax.put(`gallery/like/${payload.galleryId}`,{
 				userId : context.rootState.userId
+			}, {
+				headers : {
+					token : context.rootState.token,
+					userId: context.rootState.userId,
+				}
 			})
 			.then( result => {
 
 			})
 			.catch(err => {
+				alert('you cant like this photo')
 				console.log(err)
 			})
 		},
 		remove (context, payload) {
-			ax.delete(`gallery/${payload.galleryId}`)
+			ax.delete(`gallery/${payload.galleryId}`,{
+				headers : {
+					token  : context.rootState.token,
+					userId : context.rootState.userId
+				}
+			})
 			.then( result => {
 				context.commit('remove', {
 					galleryId : payload.galleryId
 				})
 			})
 			.catch( err => {
+				alert(' you cant delete this gallery ')
 				console.log(err);
 			})
 		},
 		updateContain (context, payload) {
 			ax.put(`gallery/${payload.galleryId}`,{
 				desc: payload.desc
+			}, {
+				headers : {
+					token : context.rootState.token,
+					userId: context.rootState.userId,
+				}
 			})
 			.then(result => {
 				context.commit('updateContain', {
@@ -134,8 +165,16 @@ export default new Vuex.Store ({
 				})
 			})
 			.catch(err => {
+				alert(' you cant update this gallery ')
 				console.log(err)
 			})
-		}			
+		},
+		signout (context) {
+			localStorage.clear()
+			localStorage.removeItem('token')
+			localStorage.removeItem('name')
+			localStorage.removeItem('userId')
+			context.commit('signout')
+		},					
 	}
 })

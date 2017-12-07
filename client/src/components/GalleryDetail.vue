@@ -33,9 +33,6 @@
 	                <textarea v-model="desc" class="form-control" id="exampleTextarea" rows="3"></textarea>
 	              </div>
 	              <button @click="editContain(gallery._id)" data-dismiss="modal" class="btn btn-primary">Submit</button>
-	               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	                  <span aria-hidden="true">&times;</span>
-	                </button>	              
 	            </form> 
 	            </div>
 	          </div>

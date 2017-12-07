@@ -20,15 +20,10 @@ function isSignIn(req,res,next) {
 }
 
 function checkQuestionOwner(req,res,next) {
-	Question.findOne({
-		_id : ObjectId(req.params.questionId)
+	Gallery.findOne({
+		_id : ObjectId(req.params.galleryId)
 	}).then(result => {
-		console.log("masuk")
-		console.log(req.headers)
-		console.log(result)
-		console.log(result.userId,req.headers.userid)
 		if(result.userId == req.headers.userid){
-			console.log("masuk ga")
 			next()
 		}else{
 			res.status(500).send({message : "you cant access"})
@@ -38,26 +33,7 @@ function checkQuestionOwner(req,res,next) {
 	})
 }
 
-
-function checkCommentOwner(req,res,next) {
-	Comment.findOne({
-		_id : ObjectId(req.params.commentId)
-	}).then(result => {
-		console.log("masuk sini")
-		console.log(result)
-		console.log(req.headers)
-		if(result.userId == req.headers.userid){
-			next()
-		}else{
-			res.status(500).send({message : "you cant access"})
-		}		
-	}).catch(err => {
-		res.status(500).send({message : "cant found that task"})
-	})
-}
-
 module.exports ={
 	isSignIn,
-	checkQuestionOwner,
-	checkCommentOwner
+	checkQuestionOwner
 }

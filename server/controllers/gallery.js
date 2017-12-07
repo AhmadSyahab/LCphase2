@@ -4,7 +4,6 @@ const ObjectId = require('mongodb').ObjectId;
 
 
 function create(req,res) {
-	console.log(req.body)
 	let gallery = new Gallery(req.body);
 	gallery.save((err, newGallery) => {
 		if(err){
@@ -16,8 +15,7 @@ function create(req,res) {
 }
 
 function findAll(req,res) {
-	console.log("wew")
-	Gallery.find()
+	Gallery.find().sort({ date : 'desc'})
 	.then(allgallery => {
 		res.send(allgallery)
 	})
@@ -44,11 +42,8 @@ function like(req,res) {
 		_id : req.params.galleryId
 	})
 	.then(gallery => {
-		console.log(req.body.userId == gallery.userId)
-		console.log(gallery.comment.indexOf(req.body.userId))
 		if(gallery.comment.indexOf(req.body.userId) == -1 ){
 			if(gallery.userId != req.body.userId){
-				console.log("masuk sini")
 				gallery.comment.push(req.body.userId)
 				gallery.save()
 				res.send(gallery)				
