@@ -21,6 +21,10 @@ export default new Vuex.Store ({
 	},
 	actions: {
 		login (context,payload) {
+			ax.post('users/signin', {
+		        username: payload.username,
+		        password: payload.password				
+			})
 		},
 		signup (context,payload) {
 			ax.post('users/signup',{
@@ -28,6 +32,18 @@ export default new Vuex.Store ({
 		        password: payload.password,
 		        email: payload.email,
 		        name: payload.name				
+			})
+			.then(result => {
+				console.log(result)
+			})
+			.catch(err => {
+				console.log(err)
+			})
+		},
+		createGallery (context,payload) {
+			ax.post('/gallery', {
+		        image: payload.image,
+				desc: payload.desc
 			})
 		}	
 	}

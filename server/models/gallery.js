@@ -1,4 +1,5 @@
 const mongoose = require('mongoose').connect('mongodb://localhost:27017/ahmadlc');
+const Schema = mongoose.Schema
 
 const galerrySchema = new Schema({
  	userId: {
@@ -6,6 +7,7 @@ const galerrySchema = new Schema({
         ref: 'user'  	
     },
     image: String,
+    desc: String,
     comment: [{
         type: Schema.Types.ObjectId,
         ref: 'user'

@@ -3,12 +3,13 @@ const Galerry = require('../models/gallery')
 
 
 function create(req,res) {
+	console.log(req.body)
 	let gallery = new Galerry(req.body);
-	gallery.save((err, gallery) => {
+	gallery.save((err, newGallery) => {
 		if(err){
 			res.status(500).send(err)
 		}else{
-			res.send(galerry);
+			res.send(newGallery);
 		}
 	})
 }
