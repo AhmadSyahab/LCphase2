@@ -11,7 +11,7 @@
 	    	<span @click="destroy(gallery._id)" class="glyphicon glyphicon-remove"></span> 
 	    </div>	
 	    <div>
-	    	<span data-toggle="modal" :data-target="`#gallery._id`" class="glyphicon glyphicon-edit"></span>
+	    	<span data-toggle="modal" :data-target="`#${gallery._id}`" class="glyphicon glyphicon-edit"></span>
 	    </div>	            
             <a href="#" @click.prevent="liked(gallery._id)" class="btn btn-default"><span class="glyphicon glyphicon-thumbs-up"></span> {{ gallery.comment.length }}</a>        
            <div class="col-md-12 gap10"></div>
@@ -21,7 +21,7 @@
 	        <div class="modal-dialog" role="document">
 	          <div class="modal-content">
 	            <div class="modal-header">
-	              <h5 class="modal-title">Upload</h5>
+	              <h5 class="modal-title">Edit</h5>
 	              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 	                <span aria-hidden="true">&times;</span>
 	              </button>
@@ -29,15 +29,13 @@
 	            <div class="modal-body">
 	            <form>
 	              <div class="form-group">
-	                <label for="exampleTextarea">Description</label>
-	                <textarea  v-model="desc" class="form-control" id="exampleTextarea" rows="3"></textarea>
+	                <label for="exampleTextarea">Edit Contain or Description</label>
+	                <textarea v-model="desc" class="form-control" id="exampleTextarea" rows="3"></textarea>
 	              </div>
-	              <div class="form-group">
-	                <label for="exampleInputFile">File input</label>
-	                <input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp">
-	                <small id="fileHelp" class="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small>
-	              </div>
-	              <button class="btn btn-primary">Submit</button>
+	              <button @click="editContain(gallery._id)" data-dismiss="modal" class="btn btn-primary">Submit</button>
+	               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	                  <span aria-hidden="true">&times;</span>
+	                </button>	              
 	            </form> 
 	            </div>
 	          </div>
@@ -59,16 +57,23 @@ export default {
 		...mapActions([
 			'getAllArticle',
 			'like',
-			'remove'
+			'remove',
+			'updateContain'
 			]),
 		liked: function (id) {
 			this.like({
-				galleryId : id
+				galleryId: id
 			})
 		},
 		destroy: function(id) {
 			this.remove({
-				galleryId : id
+				galleryId: id
+			})
+		},
+		editContain: function(id) {
+			this.updateContain({
+				galleryId: id,
+				desc: this.desc
 			})
 		}
 	},

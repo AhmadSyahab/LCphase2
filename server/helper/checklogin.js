@@ -1,12 +1,11 @@
 const jwt = require('jsonwebtoken');
 require('dotenv').config()
 const ObjectId = require('mongodb').ObjectId
-const Question = require('../models/question');
-const Comment = require('../models/comment');
+const Gallery = require('../models/gallery');
 
 function isSignIn(req,res,next) {
 	console.log(req.headers)
-	jwt.verify(req.headers.token , process.env.secret , function(err, decoded) {
+	jwt.verify(req.headers.token , 'livecode2' , function(err, decoded) {
 		if(err){
 			res.status(500).send(err)
 		}else{

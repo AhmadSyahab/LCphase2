@@ -25,7 +25,6 @@ export default new Vuex.Store ({
 			state.gallerys = payload.dataGallery.data
 		},
 		remove (state, payload) {
-			console.log(payload)
 			state.gallerys.forEach((gallery, index) => {
 				if(gallery._id == payload.galleryId){
 					state.gallerys.splice(index,1)
@@ -33,8 +32,15 @@ export default new Vuex.Store ({
 			})
 		},
 		createGallery (state, payload) {
-			console.log(payload)
 			state.gallerys = payload.gallery.data
+		},
+		updateContain (state, payload) {
+			console.log('updated',payload)
+			state.gallerys.forEach((gallery, index) => {
+				if(gallery._id == payload.galleryId) {
+					state.gallerys.splice(index,1,payload.updatedContain.data)
+				}
+			})
 		}
 	},
 	actions: {
@@ -115,6 +121,20 @@ export default new Vuex.Store ({
 			})
 			.catch( err => {
 				console.log(err);
+			})
+		},
+		updateContain (context, payload) {
+			ax.put(`gallery/${payload.galleryId}`,{
+				desc: payload.desc
+			})
+			.then(result => {
+				context.commit('updateContain', {
+					galleryId: payload.galleryId,
+					updatedContain : result
+				})
+			})
+			.catch(err => {
+				console.log(err)
 			})
 		}			
 	}

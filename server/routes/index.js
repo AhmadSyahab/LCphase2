@@ -7,5 +7,6 @@ router.get('/gallery', Controllers.findAll);
 router.post('/gallery', Controllers.create);
 router.delete('/gallery/:galleryId', Controllers.destroy);
 router.put('/gallery/like/:galleryId', Controllers.like);
+router.put('/gallery/:galleryId', Controllers.updateContent);
 
 module.exports = router;

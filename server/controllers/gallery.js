@@ -66,11 +66,31 @@ function like(req,res) {
 	})	
 }
 
+function updateContent(req,res) {
+	Gallery.findOne({
+		_id : req.params.galleryId
+	})
+	.then(gallery => {
+		gallery.set({
+			userId  	: gallery.userId,
+			image   	: gallery.image,
+			desc    	: req.body.desc || gallery.desc,
+			comment 	: gallery.comment
+		})
+		gallery.save()
+		res.send(gallery)		
+	})
+	.catch(err => {
+		res.status(500).send(err)
+	})		
+}
+
 
 
 module.exports = {
 	create,
 	findAll,
 	destroy,
-	like
+	like,
+	updateContent
 }
