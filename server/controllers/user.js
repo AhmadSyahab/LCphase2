@@ -26,7 +26,7 @@ function signIn(req,res) {
 				 		userId : user._id,
 				 		username : user.username,
 				 		email : user.email
-					}, process.env.secret, function(err,token) {
+					}, 'livecode2', function(err,token) {
 						res.send({user, message: "Successful Login", token : token })
 					});
 				 })
