@@ -5,6 +5,6 @@ const Controllers = require('../controllers/user')
 /* GET users listing. */
 router.post('/signin', Controllers.signIn);
 
-router.post('/singup', Controllers.signUp);
+router.post('/signup', Controllers.signUp);
 
 module.exports = router;

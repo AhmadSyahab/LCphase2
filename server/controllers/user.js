@@ -5,6 +5,7 @@ require('dotenv').config()
 
 		
 function signUp(req,res) {
+	console.log(req.body)
 	let user = new User(req.body)
 	user.save((err, newUser) => {
 		if(err) console.log(err)
@@ -37,4 +38,9 @@ function signIn(req,res) {
 	.catch(err => {
 		res.status(500).send(err);
 	})
+}
+
+module.exports = {
+	signUp,
+	signIn
 }
