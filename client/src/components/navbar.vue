@@ -121,14 +121,12 @@
                   <input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp">
                   <small id="fileHelp" class="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small>
                 </div>
-                <button @click.prevent="upload" class="btn btn-primary">Submit</button>
+                <button @click="upload" class="btn btn-primary">Submit</button>
               </form> 
               </div>
             </div>
           </div>
-        </div>       
-
-
+        </div>
   </div>
 </nav>  
   </div>

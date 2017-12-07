@@ -44,14 +44,21 @@ function like(req,res) {
 		_id : req.params.galleryId
 	})
 	.then(gallery => {
-		console.log(req.body.userId, gallery.userId)
-		if(gallery.comment.indexOf(req.body.userId) == -1 && ObjectId(gallery.userId) != ObjectId(req.body.userId) ){
-			console.log("masuk sini")
-			gallery.comment.push(req.body.userId)
-			gallery.save()
-			res.send(gallery)
+		console.log(req.body.userId == gallery.userId)
+		console.log(gallery.comment.indexOf(req.body.userId))
+		if(gallery.comment.indexOf(req.body.userId) == -1 ){
+			if(gallery.userId != req.body.userId){
+				console.log("masuk sini")
+				gallery.comment.push(req.body.userId)
+				gallery.save()
+				res.send(gallery)				
+			}else{
+				res.status(500).send(err)
+			}
 		}else{
-			res.status(500).send(err)
+			let index = gallery.comment.indexOf(req.body.userId)
+			gallery.comment.splice(index,1);
+			gallery.save();
 		}
 	})
 	.catch(err => {

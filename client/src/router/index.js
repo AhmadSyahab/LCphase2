@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Gallery from '@/components/Gallery'
+import GetAllGallery from '@/components/GetAllGallery'
 
 Vue.use(Router)
 
@@ -9,8 +10,14 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Gallery',
-      component: Gallery
+      component: Gallery,
+      children: [
+      {
+      	path: '',
+      	name: 'GetAllGallery',
+      	component: GetAllGallery
+      }
+      ]
     }
   ]
 })

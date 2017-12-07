@@ -23,6 +23,18 @@ export default new Vuex.Store ({
 		},
 		getAllArticle (state, payload) {
 			state.gallerys = payload.dataGallery.data
+		},
+		remove (state, payload) {
+			console.log(payload)
+			state.gallerys.forEach((gallery, index) => {
+				if(gallery._id == payload.galleryId){
+					state.gallerys.splice(index,1)
+				}
+			})
+		},
+		createGallery (state, payload) {
+			console.log(payload)
+			state.gallerys = payload.gallery.data
 		}
 	},
 	actions: {
@@ -63,6 +75,14 @@ export default new Vuex.Store ({
 				desc: payload.desc,
 				userId: context.rootState.userId
 			})
+			.then(result => {
+				context.commit('createGallery', {
+					gallery :result
+				})
+			})
+			.catch(err => {
+				console.log(err)
+			})
 		},
 		getAllArticle (context) {
 			ax.get('/gallery')
@@ -76,8 +96,6 @@ export default new Vuex.Store ({
 			})
 		},
 		like (context, payload) {
-			console.log(context.rootState.userId)
-			console.log(payload)
 			ax.put(`gallery/like/${payload.galleryId}`,{
 				userId : context.rootState.userId
 			})
@@ -86,6 +104,17 @@ export default new Vuex.Store ({
 			})
 			.catch(err => {
 				console.log(err)
+			})
+		},
+		remove (context, payload) {
+			ax.delete(`gallery/${payload.galleryId}`)
+			.then( result => {
+				context.commit('remove', {
+					galleryId : payload.galleryId
+				})
+			})
+			.catch( err => {
+				console.log(err);
 			})
 		}			
 	}
